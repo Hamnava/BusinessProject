@@ -1,0 +1,378 @@
+﻿@model BusinessProject.Core.ViewModels.UserViewModel;
+@{
+    ViewData["Title"] = "Add User";
+}
+<style>
+    .login_box {
+        font-size: 1rem;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0, .2);
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, .1);
+        padding: 20px 3px !important;
+        color: white;
+        margin: 20px 3px !important;
+    }
+    .login_box .input-group input {
+        border: none !important;
+        border-radius: 20px !important;
+        background: none !important;
+        border: 1px solid white !important;
+        color: white !important;
+        padding: 5px 15px !important;
+        width: 100% !important;
+        outline: none !important;
+        
+    }
+
+</style>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-user-plus" style="margin-right:5px"></i>
+            Add New User
+        </span>
+    </div>
+
+    <main>
+        <div class="container-fluid mt-3" style="background-color:#107587;">
+            <div class="row">
+                <form asp-controller="UserManager" asp-action="AddUser" method="post" enctype="multipart/form-data" class="d-flex justify-content-around">
+                    <div class="container-fluid">
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <div class="login_box">
+                                    <!--FirstName-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="FirstName" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="FirstName" />
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--Family-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="Family" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="Family" />
+                                            <span asp-validation-for="Family" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--Phone-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="PhoneNumber" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="PhoneNumber" />
+                                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--UserName-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="UserName" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="UserName" />
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!--MilliCode-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="MilliCode" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="MilliCode" />
+                                            <span asp-validation-for="MilliCode" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--PersonalCode-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="PersonalCode" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="PersonalCode" />
+                                            <span asp-validation-for="PersonalCode" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--Mail-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="Email" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="Email" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--Birthday-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="Birthday" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="Birthday" />
+                                            <span asp-validation-for="Birthday" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--Gender-->
+                                    <div class="input-group genderR">
+                                        <label asp-for="Gender" class="form-control-label col-md-3"></label>
+                                        <label class="col-md-3">
+                                            <span>Man</span>  <input asp-for="Gender" type="radio" value="1" checked />
+                                        </label>
+                                        <label class="col-md-3">
+                                            Woman <input asp-for="Gender" type="radio" value="2" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="login_box">
+
+                                    <!--Is Admin-->
+                                    <div class="input-group genderR">
+                                        <label asp-for="IsAdmin" class="form-control-label col-md-3"></label>
+                                        <label class="col-md-3">
+                                            <span>Admin</span>  <input asp-for="IsAdmin" type="radio" value="1"  />
+                                        </label>
+                                        <label class="col-md-3">
+                                            User <input asp-for="IsAdmin" type="radio" value="2" checked/>
+                                        </label>
+                                    </div>
+                                    <!--Address-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="Address" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <textarea asp-for="Address" style="width:100%"></textarea>
+                                            <span asp-validation-for="Address" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <!--Salary-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="Salary" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="Salary" style="width:100%" />
+                                            <span asp-validation-for="Salary" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <!--userImage-->
+                                    <div style="margin-top:15px;">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <label asp-for="UserImg" class="control-label col-md-3 col-xs-12"></label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-horizontal">
+
+                                                                    <label for="UserImg">
+                                                                        <i class="fa fa-folder-open" style="color:orange; font-size:30px; margin-top:20px; cursor:pointer;" title="Choose Image"></i>
+                                                                    </label>
+                                                                    <input asp-for="UserImg" type="file" accept=".jpg, .png, .tif, .tiff, .jpeg" style="visibility:hidden" />
+                                                                    <span id="spnimageuser" style="color:white;"></span>
+                                                                    <!--New Image Name-->
+                                                                    <input id="newImagePathName" name="newImagePathName" hidden />
+                                                                    <input type="button" value="Upload" id="btnupload" onclick="UploadImage()" class="btn btn-danger"
+                                                                           style=" border-radius:5px; width:80px; margin-bottom:10px;" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <img id="imguserimage" src="~/img/upload/user.png"
+                                                                     style="height:130px; width:130px; margin:5px auto; border:1px solid gray; background-size:100%; width:100%;" />
+
+                                                                <div id="divmessage" class="text-center hidden"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!--signature-->
+                                    <div>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <label asp-for="SignatureImg" class="control-label col-md-3 col-xs-12"></label>
+                                                <div class="col-md-9 col-xs-12">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-horizontal">
+
+                                                                    <label for="SignatureImg">
+                                                                        <i class="fa fa-folder-open" style="color:orange; font-size:30px; margin-top:20px; cursor:pointer;" title="Choose Image"></i>
+                                                                    </label>
+                                                                    <input asp-for="SignatureImg" type="file" accept=".jpg, .png, .tif, .tiff, .jpeg" style="visibility:hidden" />
+                                                                    <span id="spnsiguser" style="color:white;"></span>
+                                                                    <!--New Image file-->
+                                                                    <input id="newSignaturePathName" name="newSignaturePathName" hidden />
+
+                                                                    <input type="button" value="Upload" id="btnuploadsignature" onclick="UploadSignature()" class="btn btn-danger"
+                                                                           style=" border-radius:5px; width:80px; margin-bottom:10px;" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <img id="imgusersignature" src="~/img/upload/sig.png"
+                                                                     style="height:130px; width:130px; margin:5px auto; border:1px solid gray; background-size:100%; width:100%;" />
+
+                                                                <div id="divmessage1" class="text-center hidden"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="d-flex justify-content-center  mt-5 mb-5">
+                                        <button type="submit" class="btn" style="background-color:#eb4d4b">Save</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+ </div>
+
+
+
+@section AdminScripts{
+    <script>
+        $("#UserImg").change(function () {
+            var filename = this.files[0].name;
+            $("#spnimageuser").html(filename);
+        });
+        $("#SignatureImg").change(function () {
+            var filename = this.files[0].name;
+            $("#spnsiguser").html(filename);
+        });
+    </script>
+
+    <script>
+        var UploadImage = function () {
+            var data = new FormData;
+            var file = $("#UserImg").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('filearray',files[i]);
+            }
+            data.append('path', "img\\upload\\userimage\\");
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadImageFile","UserManager", new { area = "AdminArea"})',
+                data: data,
+                contentType: false,
+                processData: false
+
+            }).done(function (result) {
+                if (result.status == "success") {
+                    $("#imguserimage").attr('src', "\\img\\upload\\userimage\\" + result.imagename);
+                    $("#divmessage").text("Image uploaded successfully");
+                    $("#divmessage").css("color", "green");
+                    $("#divmessage").removeClass("hidden");
+
+
+                    $("#newImagePathName").val(result.imagename);
+                }
+
+            }).fail(function (result) {
+                   if (result.status != "success") {
+                    $("#divmessage").css("color", "red");
+                    $("#divmessage").removeClass("hidden");
+                    $("#divmessage").text("An error accured while image was uploading...");
+                }
+            });
+
+        }
+    </script>
+
+    <script>
+        var UploadSignature = function () {
+            var data = new FormData;
+            var file = $("#SignatureImg").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('filearray',files[i]);
+            }
+
+            data.append('path', "img\\upload\\signatureimage\\");
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadImageFile","UserManager", new { area = "AdminArea"})',
+                data:  data,
+                contentType: false,
+                processData: false
+
+            }).done(function (result) {
+                if (result.status == "success") {
+                    $("#imgusersignature").attr('src', "\\img\\upload\\signatureimage\\" + result.imagename);
+                    $("#divmessage1").text("Image uploaded successfully");
+                    $("#divmessage1").css("color", "green");
+                    $("#divmessage1").removeClass("hidden");
+
+
+                    $("#newSignaturePathName").val(result.imagename);
+                }
+
+            }).fail(function (result) {
+                   if (result.status != "success") {
+                    $("#divmessage1").css("color", "red");
+                    $("#divmessage1").removeClass("hidden");
+                    $("#divmessage1").text("An error accured while image was uploading...");
+                }
+            });
+
+        }
+    </script>
+
+    <script>
+        $("#UserName").on('keyup', function (event) {
+            var pattern = /^[a-zA-Z0-9]*$/;
+            if (!pattern.test(event.key)) {
+                $('#UserName').val("");
+            }
+        });
+
+    </script>
+}

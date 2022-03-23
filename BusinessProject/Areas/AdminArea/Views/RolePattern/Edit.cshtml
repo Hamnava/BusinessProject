@@ -1,0 +1,44 @@
+﻿@model BusinessProject.Core.ViewModels.RolePatternViewModel
+@{
+    ViewData["Title"] = "Update Positons";
+}
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-edit"></i>
+            Update Positon
+        </span>
+    </div>
+
+    <div class="wholcontent">
+        <div class="col-md-8 offset-2 mt-4 pt-4" style="box-shadow:3px 3px 1px 0 gray; border:1px solid gray; border-radius:2px; padding:20px 15px;">
+            <form asp-controller="RolePattern" asp-action="Edit" method="post">
+                <!-- RolePatternName--->
+                <div>
+                    <label class="control-label col-md-3 col-xs-12 text-light">Position's Name</label>
+                    <div class=" col-md-9 col-xs-12">
+                        <input asp-for="RolePatternName" class="custominput form-control" placeholder="Position Name..." autocomplete="off" />
+                        <span asp-validation-for="RolePatternName" class="text-danger"></span>
+                    </div>
+                </div>
+                <input asp-for="RolePatternId" hidden />
+                <!-- RolePatternDesc--->
+                <div>
+                    <label class="control-label col-md-3 col-xs-12 text-light">Descrition</label>
+                    <div class=" col-md-9 col-xs-12">
+                        <input asp-for="RolePatternDesc" class="custominput form-control" placeholder="Descrition..." autocomplete="off" />
+                        <span asp-validation-for="RolePatternDesc" class="text-danger"></span>
+                    </div>
+                </div>
+                <!--btn submit--->
+                <div class="form-group col-xs-12" style="margin-top:15px; text-align:center">
+                    <input type="submit" value="Save changes" class="btn btn-primary " />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

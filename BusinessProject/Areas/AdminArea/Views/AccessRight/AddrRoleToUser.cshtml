@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Add Role To User";
+
+}
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-universal-access"></i>
+           Give access to <span style="color:orange"> @ViewBag.FullName </span>
+        </span>
+    </div>
+
+    <div class="alert alert-info" style="font-size:16px; text-align:center">
+        <h5>For adding any role to users, check them and then click on 'Save' button</h5>
+    </div>
+    <div class="panel panel-body container-fluid overflow-auto" style="border-radius:2px; height:450px;
+                    box-shadow:3px 1px 1px 0 gray; background-color:#eeeeee !important">
+        <div id="jstreeAddRole" style="margin-top:5px;">
+
+        </div>
+    </div>
+
+    @if (ViewBag.userRole != null)
+    {
+        <input id="userrole" value="@ViewBag.userRole" hidden />
+    }
+
+    <input id="userId" name="userId" value="@ViewBag.userId" hidden />
+    <input id="SelectedItems" name="SelectedItems" type="text"  hidden/>
+
+    <div class="form-group col-xs-12" style="margin-top:15px; text-align:right">
+        <button id="btnsubmit" name="btnsubmit" class="btn btn-primary " >Save</button>
+    </div>
+</div>
+@section AdminScripts
+{
+    <script>
+        $(function () {
+            $("#jstreeAddRole").on("changed.jstree", function (e, data) {
+
+                var i, j;
+                var postedItems = [];
+
+                j = data.selected.length;
+                for (var i = 0; i < j; i++) {
+                    postedItems.push({
+                        text: data.instance.get_node(data.selected[i]).text,
+                        id: data.selected[i],
+                        parent: data.node.parents[0]
+                    });
+                    //alert(postedItems[0].id + ' ' + postedItems[0].text);
+                }
+
+                $("#SelectedItems").val(JSON.stringify(postedItems));
+
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant": "large"
+                    },
+                    "data":  @Html.Raw(ViewBag.AddRoleJson) ,
+                },
+                "checkbox": {
+                    "visible": true,
+                    "Keep_selected_style": false
+                },
+                "plugins": ["checkbox"],
+                checkbox: {three_state:false, cascade:""}
+            }).on("loaded.jstree", function () {
+                $.jstree.reference('#jstreeAddRole').open_all();
+
+                var userRole = $("#userrole").val().split(",");
+                $("#jstreeAddRole").jstree(true).select_node(userRole);
+            });
+        });
+    </script>
+
+    <script>
+    $("#btnsubmit").on('click', function (e) {
+        e.preventDefault();
+        if ($('#SelectedItems').val() == "" | $('#SelectedItems').val() == '[]') {
+            alert("Please choose at least one item!");
+        }
+        else {
+
+               $.ajax({
+               type: "Post",
+               url:'@Url.Action("AddRoleToUser", "AccessRight")',
+               data: { 'selectedItems': $("#SelectedItems").val(), 'userId': $("#userId").val() },
+               }).done(function (result) {
+                   if (result.status =="success") {
+                       swal({
+                           title: "Added Roles to user",
+                           text: "All the roles has been given to user successfully 😉",
+                           type: 'success',
+                           showCancelButton: false,
+                           allowOutsideClick: false,
+                           confirmButtonColor: "green",
+                           confirmButtonText: "Okey"
+                       }).done(function () {
+                           
+                       });
+                   }
+               })
+        }
+
+    })
+    </script>
+}
+
+
+

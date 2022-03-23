@@ -1,0 +1,43 @@
+﻿@model BusinessProject.Core.ViewModels.AdminstrativeDefaultFormViewModel
+@{
+    ViewData["Title"] = "Define a new position for system";
+}
+
+
+<div class="public">
+    <div class="public-header" style="background-color:#fff !important; color:black;">
+        <span>
+            <i class=""></i>
+            Define a new Default Form for system
+        </span>
+    </div>
+
+    <div class="pb-5">
+        <div class="col-md-8 offset-2 mt-4 pt-4" style="box-shadow:3px 3px 1px 0 gray; border:1px solid gray; border-radius:2px; padding:20px 15px;">
+            <form asp-controller="DefaultForm" asp-action="AddNewDefaultForm" method="post">
+                <!-- AdminstrativeFormTitle--->
+                <div class="d-flex justify-content-between">
+                    <label class="control-label col-md-3 col-xs-12 ">Position's Name</label>
+                    <div class=" col-md-9 col-xs-12">
+                        <input asp-for="AdminstrativeFormTitle" class="custominput form-control" placeholder="Position Name..." autocomplete="off" />
+                        <span asp-validation-for="AdminstrativeFormTitle" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- AdminstrativeFormContent--->
+                <div class="d-flex justify-content-between mt-3">
+                    <label class="control-label col-md-3 col-xs-12 ">Descrition</label>
+                    <div class=" col-md-9 col-xs-12">
+                        <textarea asp-for="AdminstrativeFormContent" class="custominput form-control" placeholder="Adminstrative Form Content..." autocomplete="off" rows="5" ></textarea>
+                        <span asp-validation-for="AdminstrativeFormContent" class="text-danger"></span>
+                    </div>
+                </div>
+                <!--btn submit--->
+                <div class="form-group col-xs-12" style="margin-top:15px; text-align:center">
+                    <input type="submit" value="Save" class="btn btn-primary " />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

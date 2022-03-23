@@ -1,0 +1,37 @@
+﻿@model BusinessProject.Core.ViewModels.RoleViewModel
+@{
+    ViewData["Title"] = "Define a new job for system";
+}
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="ti-user"></i>
+            Define a new System part for system under <span style="color:#ff6a00">@ViewBag.parentname</span>
+        </span>
+    </div>
+
+    <div class="wholcontent">
+        <div class="col-md-8 offset-2 mt-4 pt-4" style="box-shadow:3px 3px 1px 0 gray; border:1px solid gray; border-radius:2px; padding:20px 15px; height:200px">
+            <form asp-controller="SystemPart" asp-action="AddSystemPart" method="post">
+                <!-- Name--->
+                <div>
+                    <label class="control-label col-md-3 col-xs-12 text-light ">System part's Name</label>
+                    <div class=" col-md-9 col-xs-12">
+                        <input asp-for="Name" class="custominput form-control" placeholder="System part Name..." autocomplete="off" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!--role level-->
+                <input asp-for="RoleLevel" hidden value="@ViewBag.levelid" />
+                <!--btn submit--->
+                <div class="form-group col-xs-12" style="margin-top:15px; text-align:center">
+                    <input type="submit" value="Create new part" class="btn btn-primary " />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

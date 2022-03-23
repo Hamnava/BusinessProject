@@ -1,0 +1,169 @@
+﻿@model BusinessProject.Core.ViewModels.PaymentViewModel;
+@{
+    ViewData["Title"] = "Pay Salary";
+}
+<style>
+    .login_box {
+        font-size: 1rem;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0, .2);
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, .1);
+        padding: 20px 3px !important;
+        color: white;
+        margin: 20px 3px !important;
+    }
+
+        .login_box .input-group input {
+            border: none !important;
+            border-radius: 20px !important;
+            background: none !important;
+            border: 1px solid white !important;
+            color: white !important;
+            padding: 5px 15px !important;
+            width: 100% !important;
+            outline: none !important;
+        }
+</style>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-money-bill-wave" style="margin-right:5px"></i>
+            Update Payment for <span style="color:orange">@ViewBag.FullName (@ViewBag.position)</span>
+        </span>
+    </div>
+
+    <main>
+        <div class="container-fluid mt-3" style="background-color:#107587;">
+            <div class="row">
+                <form asp-controller="Payment" asp-action="EditPayment" method="post" class="d-flex justify-content-around">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="login_box">
+                                    <div class="container-fluid">
+                                        <div class="row">
+
+                                            <!--FullName-->
+                                            <div class="input-group">
+                                                <div class="col-md-3">
+                                                    <label class="form-control-label">Full Name</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input id="userfullName" value="@ViewBag.FullName" readonly />
+                                                </div>
+                                            </div>
+
+                                            <!--JobName-->
+                                            <div class="input-group">
+                                                <div class="col-md-3">
+                                                    <label class="form-control-label">Position</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input id="position" value="@ViewBag.position" readonly />
+                                                </div>
+                                            </div>
+                                            
+                                            <input asp-for="PaymentDate" hidden />
+
+                                            <!--Salary-->
+                                            <div class="input-group">
+                                                <div class="col-md-3">
+                                                    <label class="form-control-label">Main Salary</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input  asp-for="MainSalary" readonly value="@ViewBag.Salary" />
+                                                </div>
+                                            </div>
+
+                                            <!--bonus-->
+                                            <div class="input-group">
+                                                <div class="col-md-3">
+                                                    <label asp-for="bonus" class="form-control-label"></label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input asp-for="bonus" />
+                                                    <span asp-validation-for="bonus" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <input asp-for="JobID" hidden />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="login_box">
+
+                                    <!--Tax-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="Tax" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="Tax" />
+                                        </div>
+                                    </div>
+
+                                    <!--PayedAmount-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="PayedAmount" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="PayedAmount" id="amountPayed" />
+                                            <span asp-validation-for="PayedAmount" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--RemianSalary-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="RemianSalary" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="RemianSalary" id="remain" />
+                                            <span asp-validation-for="RemianSalary" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--TotalPayed-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="TotalPayed" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="TotalPayed" />
+                                            <span asp-validation-for="TotalPayed" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <input asp-for="UserID"  hidden />
+                                    <input asp-for="PaymentId" hidden />
+                                    <div class="d-flex justify-content-center  mt-5 mb-5">
+                                        <button type="submit" class="btn" style="background-color:#eb4d4b">Save changes</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+@section AdminScripts{
+
+    <script>
+    var mainSalary = (int)($("#mainSalary").val());
+    var payedAmount = (int)($("#PayedAmount").val());
+    let remain = mainSalary - payedAmount;
+
+    $("#amountPayed").change( function () {
+        $("#remain").val(remain)
+    })
+    </script>
+}
+

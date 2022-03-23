@@ -1,0 +1,53 @@
+﻿@model BusinessProject.Core.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<main>
+    <div class="login-container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="login_box">
+                    <h3 class="text-center" style="color:#eb4d4b"> Sign In</h3>
+                    <form asp-action="Login" asp-controller="Account" method="post">
+                        <div class="input-group">
+                            <label for="" style="display:block !important" asp-for="UserName"> </label>
+                            <input type="text" asp-for="UserName" />
+                        <span asp-validation-for="UserName" style="font-weight:bold; font-size:18px; color:#eb4d4b"></span>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="">Password : </label>
+                            <input type="password" asp-for="Password" />
+                        <span asp-validation-for="Password" style="font-weight:bold; font-size:18px; color:#eb4d4b"></span>
+                        </div>
+                        <p class="done't-have-account">
+                            Don't have account? <a href="#">Create account </a> it will take less than one minute of your time!
+                        </p>
+                        <div class="button-submit-login">
+                            <input type="submit" value="Login" />
+                        </div>
+                    </form>
+                    <div class="social_ath">
+                        <a href=""><i class="fa fa-google"></i></a>
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-instagram "></i></a>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="col-md-4">
+                <div class="login-img-container">
+                    <img src="~/img/log.png" class="img-fluid" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="login_box text-center">
+                    <p> &copy; 2021 - BusinessProject - Developed by : Nematullah Hamnava, Website : <a asp-area="" asp-controller="Home" asp-action="Privacy">www.Hamnava.com</a> </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

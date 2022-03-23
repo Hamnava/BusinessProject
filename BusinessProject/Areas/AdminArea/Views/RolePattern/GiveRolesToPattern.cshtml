@@ -1,0 +1,132 @@
+﻿@{
+    ViewData["Title"] = "Add Role To pattern";
+
+}
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-universal-access"></i>
+            Give access to <span style="color:orange"> @ViewBag.RolePatternName </span>
+        </span>
+    </div>
+
+    <div class="alert alert-info" style="font-size:16px; text-align:center">
+        <h5>For adding any role to users, check them and then click on 'Save' button</h5>
+    </div>
+    <div class="panel panel-body container-fluid overflow-auto" style="border-radius:2px; height:450px;
+                    box-shadow:3px 1px 1px 0 gray; background-color:#eeeeee !important">
+        <div id="jstreeAddRole" style="margin-top:5px;">
+
+        </div>
+    </div>
+
+    @if (ViewBag.Patternrole != null)
+    {
+        <input id="Patternrole" value="@ViewBag.Patternrole" hidden />
+    }
+
+    <input id="RolePatternId" name="RolePatternId" value="@ViewBag.RolePatternId" hidden />
+    <input id="SelectedItems" name="SelectedItems" type="text" hidden />
+
+    <div class="form-group col-xs-12" style="margin-top:15px; text-align:right">
+        <button id="btnsubmit" name="btnsubmit" class="btn btn-primary ">Save</button>
+    </div>
+</div>
+@section AdminScripts
+{
+    <script>
+        $(function () {
+            $("#jstreeAddRole").on("changed.jstree", function (e, data) {
+
+                var i, j;
+                var postedItems = [];
+
+                j = data.selected.length;
+                for (var i = 0; i < j; i++) {
+                    postedItems.push({
+                        text: data.instance.get_node(data.selected[i]).text,
+                        id: data.selected[i],
+                        parent: data.node.parents[0]
+                    });
+                    //alert(postedItems[0].id + ' ' + postedItems[0].text);
+                }
+
+                $("#SelectedItems").val(JSON.stringify(postedItems));
+
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant": "large"
+                    },
+                    "data":  @Html.Raw(ViewBag.AddRoleJson) ,
+                },
+                "checkbox": {
+                    "visible": true,
+                    "Keep_selected_style": false
+                },
+                "plugins": ["checkbox"],
+                checkbox: {three_state:false, cascade:""}
+            }).on("loaded.jstree", function () {
+                $.jstree.reference('#jstreeAddRole').open_all();
+
+                var AllRole = $("#Patternrole").val().split(",");
+                $("#jstreeAddRole").jstree(true).select_node(AllRole);
+            });
+        });
+    </script>
+
+    <script>
+    $("#btnsubmit").on('click', function (e) {
+        e.preventDefault();
+        if ($('#SelectedItems').val() == "1" | $('#SelectedItems').val() == '[]') {
+            alert("Please choose at least one item!");
+        }
+        else {
+
+               $.ajax({
+               type: "Post",
+               url:'@Url.Action("GiveRolesToPatternPost", "RolePattern")',
+                   data: { 'selectedItems': $("#SelectedItems").val(), 'RolePatternId': $("#RolePatternId").val() },
+               }).done(function (result) {
+                   if (result.status =="success") {
+                       swal({
+                           title: "Added Roles to Positon",
+                           text: "All the roles has been given to this positon successfully 😉",
+                           type: 'success',
+                           showCancelButton: false,
+                           allowOutsideClick: false,
+                           confirmButtonColor: "green",
+                           confirmButtonText: "Okey"
+                       });
+                   };
+                   if (result.status == "error") {
+                       swal({
+                           title: "Error!",
+                           text: "Something went wrong during connecting to database😕",
+                           type: 'warning',
+                           showCancelButton: false,
+                           allowOutsideClick: false,
+                           confirmButtonColor: "orange",
+                           confirmButtonText: "Got it"
+                       });
+                   }
+                   if (result.status == "noselected") {
+                       swal({
+                           title: "NO selected Items!",
+                           text: "There is no selected roles for giving it to this positon🙄",
+                           type: 'warning',
+                           showCancelButton: false,
+                           allowOutsideClick: false,
+                           confirmButtonColor: "orange",
+                           confirmButtonText: "Got it"
+                       });
+                   }
+               })
+        }
+
+    })
+    </script>
+}
+
+
+

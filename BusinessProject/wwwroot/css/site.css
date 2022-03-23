@@ -1,0 +1,47 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+body{
+   
+
+}
+.public{
+    margin:10px 20px;
+}
+.public-header {
+    border-radius: 5px;
+    box-shadow: 3px 3px 1px 0 #1a4958;
+    background-color: #064c63;
+    font-size: 20px;
+    color: white;
+    padding: 8px 20px !important;
+}
+.margintop-20{
+    margin-top:20px;
+    margin-bottom:5px;
+}
+.table-bordered td, .table-bordered th {
+    border: 1px solid #ccc !important;
+}
+.wholcontent {
+    background: radial-gradient(circle farthest-corner at 10% 20%, rgba(90,92,106,1) 0%, rgba(32,45,58,1) 81.3%);
+    margin:10px;
+    padding: 30px;
+}
+.wholcontent input .form-control {
+    border:none;
+    background:none;
+    border:1px solid white;
+    border-radius:5px;
+    outline:none;
+}
+.Mycontent{
+    display:flex;
+    display:inline;
+}
+.public .Mycontent form f1half {
+    width: 50% !important;
+}
+
+a.collapse-item{
+    color:#fff !important;
+}

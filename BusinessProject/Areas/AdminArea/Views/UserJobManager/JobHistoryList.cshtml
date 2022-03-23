@@ -1,0 +1,103 @@
+﻿@model IEnumerable<BusinessProject.DataModelLayer.Entities.UserJob>
+@using BusinessProject.Core.Classes
+@inject BusinessProject.Core.Interfaces.IUnitOfWork _context
+@{
+    ViewData["Title"] = "User Job";
+    int counter = 1;
+    var username = _context.userManagerUW.GetById(ViewBag.userId);
+}
+
+
+<div id="placeholder"></div>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-user-cog"></i>
+            Job History of <span style="color:orange">@username.FirstName</span> <span style="color:orange"> @username.Family</span>
+        </span>
+    </div>
+    @if (ViewBag.CheckJob != 1)
+    {
+        <a class="btn btn-success margintop-20" asp-controller="UserJobManager" asp-action="AddJobToUser" asp-route-userId="@ViewBag.userId"
+           asp-route-FirstName="@username.FirstName" asp-route-Family="@username.Family">
+            <span class="mt-4">
+                Give a Job
+                <i class="fa fa-plus"></i>
+            </span>
+        </a>
+
+    }
+
+    <div class="col-12 table-responsive" style="border-radius: 2px; box-shadow: 3px 3px 1px 0 gray; padding:10px 5px; border: 1px solid gray; background-color:white;">
+        <table class="table table-bordered " style="background-color:white !important; font-size:16px;border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+            <thead style="background-color:#096060; color:white;">
+                <tr>
+                    <td>NO</td>
+                    <td>Job Name</td>
+                    <td>Hire Date</td>
+                    <td> Fire Date </td>
+                    <td> Status </td>
+                    <td>Operations</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="background-color:@(item.IsHaveJob == true? "lightGreen": "#f8cece")">
+                        <td>@counter</td>
+                        <td>@item.Jobs.JobsName</td>
+                        <td>@string.Format("{0:yyyy/MM/dd}", item.StartJobDate)</td>
+                        @if (item.IsHaveJob == false)
+                        {
+                            <td>@string.Format("{0:yyyy/MM/dd}", item.EndJobDate)</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>
+                            @if (item.IsHaveJob == true)
+                            {
+                                <span style="font-weight:bold">has</span>
+                            }
+                            else
+                            {
+                                <span style="font-weight:bold">Dosen't have</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.IsHaveJob == true)
+                            {
+                                <div class="row" style="margin:1px !important">
+                                    <button type="button" data-toggle="ajax-modal" data-target="#TestModal"
+                                            data-url="@Url.Action($"DelJobFromUser", "UserJobManager", new {UserJobId = item.UserJobId, userId = item.UserId })"
+                                            class="btn btn-danger" title="take job">
+                                        <i class="fa fa-times"></i>
+                                        <span>Take Job</span>
+                                    </button>
+                                </div>
+                            }
+                            else
+                            {
+
+                            }
+
+                        </td>
+                    </tr>
+                    counter++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+@Html.Partial("_Modal", new BootstrapModel { ID = "modal-action", Size = BootstrapModel.ModalSize.Large })
+
+@section AdminScripts{
+    <script src="~/js/Modal/modal.js"></script>
+}

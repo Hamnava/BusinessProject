@@ -1,0 +1,36 @@
+﻿@model BusinessProject.DataModelLayer.Entities.AdminstrativeForm
+@{
+    Layout = null;
+}
+
+
+
+<!-- The Modal -->
+<div class="modal fade" id="TestModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="background-color:#0d7171; color:white; border-radius:5px 5px 0 0;">
+                <h6 class="modal-title">Delete Default Form</h6>
+                <button type="button" class="close pull-left" data-dismiss="modal">&times;</button>
+
+
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form asp-controller="DefaultForm" asp-action="DeleteForm" method="post">
+                    Are you sure you want to delete admin form ' <span style="color:darkgreen; font-weight:bold;">@Model.AdminstrativeFormTitle</span> ' ?
+
+                    <input type="hidden" asp-for="AdminstrativeFormId" />
+
+                    <div class="modal-footer" style="text-align:left">
+                        <button type="button" data-dismiss="modal" style="width:80px" class="btn btn-default">Back</button>
+                        <button type="submit" class="btn" style="width:80px; color:white; background-color:#0b6b75">Yup!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

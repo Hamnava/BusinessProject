@@ -1,0 +1,150 @@
+﻿@model IEnumerable<BusinessProject.DataModelLayer.Entities.SystemUsers>
+
+@{
+    ViewData["Title"] = "Users";
+    int counter = 1;
+}
+
+<style>
+    .swal2-content{
+        font-size:18px !important;
+        color:#096060;
+    }
+    .swal2-icon {
+        margin:2px auto 3px !important;
+    }
+</style>
+<div id="placeholder"></div>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-users"></i>
+            Display all users
+        </span>
+    </div>
+    @if (Convert.ToInt32(TempData["Date"]) == 1)
+    {
+        @section AdminScripts{
+            <script>
+                swal({
+                    title: "Warning",
+                    text: "This User has been payed his Salary in this month! If you want to give some changes, so please go to salary payment part and search them 😉",
+                    type: 'warning',
+                showCancelButton: false,
+                allowOutsideClick: false,
+                confirmButtonColor: "green",
+                confirmButtonText: "Okey"
+            });
+            </script>
+
+        }}
+    <div>
+        <a asp-action="AddUser" asp-controller="UserManager" class="btn btn-success margintop-20">
+            <span class="mt-4">
+                Add User
+                <i class="fa fa-user-plus"></i>
+            </span>
+        </a>
+    </div>
+    <div style="border-radius: 2px; box-shadow: 3px 3px 1px 0 gray; padding:10px 5px; border: 1px solid gray; background-color:white;">
+        <table class="table table-bordered table-hover table-striped" style="background-color:white !important; font-size:16px;border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+            <thead style="background-color:#096060; color:white;">
+                <tr>
+                    <td>Picture</td>
+                    <td>FirstName</td>
+                    <td>Family</td>
+                    <td>Phone</td>
+                    <td>UserName</td>
+                    <td>Personal Code</td>
+                    <td>Status</td>
+
+                    <td>Operations</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="padding:0 !important; text-align:center"><img src="~/img/upload/userimage/@item.UserImg" width="40" height="45" style="border-radius:50%" /></td>
+                        <td>@item.FirstName</td>
+                        <td>@item.Family</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.UserName</td>
+                        <td>@item.PersonalCode</td>
+                        <td>
+                            @if (item.IsActive == 1)
+                            {
+                                <span style="color:green">Active</span>
+                            }
+                            else
+                            {
+                                <span style="color:red;">InActive</span>
+                            }
+                        </td>
+                        <td>
+
+                            <div class="row" style="margin:0 !important">
+                                <a asp-controller="UserManager" asp-action="UserDetails" asp-route-userId="@item.Id"
+                                   style="height:30px; width:40px; font-size:14px; margin-right:3px;"
+                                   class="btn btn-info" title="جزییات">
+                                    <i class="fa fa-book"></i>
+                                </a>
+
+                                <a asp-controller="UserManager" asp-action="EditUser" asp-route-userId="@item.Id"
+                                   style="height:30px; width:40px; font-size:14px; margin-right:3px;"
+                                   class="btn btn-warning" title="ویرایش">
+                                    <i class="fa fa-edit"></i>
+
+                                </a>
+
+                                @if (item.IsActive == 1)
+                                {
+
+                                    <button type="button" data-toggle="ajax-modal" data-target="#TestModal"
+                                            data-url="@Url.Action($"ActiveDeActiveUser", "UserManager", new {Id = item.Id, IsActive = item.IsActive })"
+                                            style="height:30px; width:40px; font-size:14px; margin-right:3px;"
+                                            class="btn btn-danger" title="make inactive">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                }
+                                else
+                                {
+
+                                    <button type="button" data-toggle="ajax-modal" data-target="#TestModal"
+                                            data-url="@Url.Action($"ActiveDeActiveUser", "UserManager", new {Id = item.Id, IsActive = item.IsActive })"
+                                            style="height:30px; width:40px; font-size:14px; margin-right:3px;"
+                                            class="btn btn-success" title="make active">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                }
+
+                                <button type="button" data-toggle="ajax-modal" data-target="#ChangePassword"
+                                        data-url="@Url.Action($"ChangePasswordbyAdmin", "UserManager", new {userId = item.Id, FirstName = item.FirstName, Family = item.Family })"
+                                        style="height:30px; width:40px; font-size:14px; margin-right:3px;"
+                                        class="btn btn-secondary" title="Change Password">
+                                    <i class="fa fa-key"></i>
+                                </button>
+
+                                <a asp-controller="Payment" asp-action="PaySalary" asp-route-Id="@item.Id"
+                                   asp-route-FullName="@item.FirstName @item.Family" asp-route-Salary="@item.Salary"
+                                   style="height:30px; width:40px; font-size:14px; margin-right:3px;"
+                                   class="btn btn-success" title="Pay salary">
+                                    <i class="fa fa-google-wallet"></i>
+                                </a>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                    counter++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+

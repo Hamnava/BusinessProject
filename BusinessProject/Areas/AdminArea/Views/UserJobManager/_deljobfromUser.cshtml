@@ -1,0 +1,35 @@
+﻿
+
+<!-- The Modal -->
+<div class="modal fade" id="TestModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="background-color:#1abbcb; color:white; border-radius:5px 5px 0 0;">
+                <p class="modal-title">Taking Job</p>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <form asp-controller="UserJobManager" asp-action="DelJobFromUserpost" method="post">
+                    <div class="modal-body form-horizontal">
+                      Are you sure want to take this job from user?
+                    </div>
+
+                    <input id="UserJobId" name="UserJobId" value="@ViewBag.UserJobId" hidden />
+                    <input id="userId" name="userId" value="@ViewBag.userId" hidden />
+
+                    <div class="modal-footer" style="margin-left:15px">
+                        <button type="button" data-dismiss="modal"  class="btn" style="background-color:#ff6a00">Back</button>
+                        <button type="submit" class="btn" style=" color:white; background-color:#0a839f">Yes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

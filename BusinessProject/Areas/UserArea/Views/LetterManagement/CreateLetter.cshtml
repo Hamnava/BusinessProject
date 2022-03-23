@@ -1,0 +1,317 @@
+﻿@model BusinessProject.Core.ViewModels.LettersViewModel
+
+@{
+    ViewData["Title"] = "CreateLetter";
+}
+
+
+
+<div class="public">
+    <div id="placeholder"></div>
+
+    <div class="panel panel-heading p-3 bg-white" style="box-shadow:3px 1px 1px 0 gray; border-radius:2px; margin-top: 30px !important; margin-bottom:20px !important">
+        <span style="font-weight:bold;">
+            <i class="fa fa-plus"></i>
+            Create Letter Form
+        </span>
+    </div>
+
+
+    <div class="panel panel-body container-fluid"
+         style="border-radius:2px; box-shadow:3px 1px 1px 0 gray; background-color:#e6e2e2;">
+
+        <form asp-controller="LetterManagement" asp-action="CreateLetter" enctype="multipart/form-data">
+            <div class="container-fluid">
+                <div class="row">
+
+
+                    <div class="col-md-9 col-xs-12 offset-md-2">
+
+                        @if (ViewBag.LetterType == 2)
+                        {
+                            <div class="alert alert-success" style="text-align:center">
+                                @ViewBag.msg
+                            </div>
+                        }
+
+                        @*<input asp-for="ClassificationStatu" value="@ViewBag.LetterType" hidden />*@
+                        @*<input asp-for="LetterId" value="@ViewBag.MainLetterId" hidden />*@
+                        @*<input id="LetterNumber" name="LetterNumber" value="@ViewBag.LetterNumber" hidden />*@
+                        @*<input id="LetterDate" name="LetterDate" value="@ViewBag.LetterDate" hidden />*@
+
+                        <!--LetterCreateDate-->
+                        <div class="row d-flex justify-content-between mt-4" style="height:45px;">
+                            <label asp-for="LetterCreatDate" class="col-md-3 col-xs-12 LabelClass"></label>
+                            <div class="col-md-9 col-xs-12">
+                                <div style="color:darkgreen;">@DateTime.Now.DayOfWeek.ToString() @DateTime.Now.ToString("dd") @DateTime.Now.ToString("MMMM") @DateTime.Now.Year  </div>
+                            </div>
+                        </div>
+
+                        <!--LetterSubject-->
+                        <div class="d-flex justify-content-between mt-3">
+                            <label asp-for="LetterSubject" class="control-label col-md-3 col-xs-12 LabelClass"></label>
+                            <div class="col-md-9 col-xs-12">
+                                <input asp-for="LetterSubject" type="text" class="form-control custominput" placeholder=" Letter Subject ..." />
+                                <span asp-validation-for="LetterSubject" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--ClassificationStatus-->
+                        <div class="d-flex justify-content-between mt-3">
+                            <label asp-for="Classification" class="control-label col-md-3 col-xs-12 LabelClass"></label>
+                            <div class="col-md-9 col-xs-12" style="height:45px;">
+                                <label class="col-md-3 col-xs-4">
+                                    Normal
+                                    <input asp-for="Classification" type="radio" value="1" checked />
+                                </label>
+                                <label class="col-md-3 col-xs-4">
+                                    Private
+                                    <input asp-for="Classification" type="radio" value="2" />
+                                </label>
+                                <label class="col-md-4 col-xs-4">
+                                    Secret
+                                    <input asp-for="Classification" type="radio" value="3" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <!--ImmediatellyStatus-->
+                        <div class="d-flex justify-content-between mt-3">
+                            <label asp-for="ImmediatellyStatus" class="control-label col-md-3 col-xs-12 LabelClass"></label>
+                            <div class="col-md-9 col-xs-12" style="height:45px;">
+                                <label class="col-md-3 col-xs-4">
+                                    Normal
+                                    <input asp-for="ImmediatellyStatus" type="radio" value="1" checked />
+                                </label>
+                                <label class="col-md-3 col-xs-4">
+                                    urgent
+                                    <input asp-for="ImmediatellyStatus" type="radio" value="2" />
+                                </label>
+                                <label class="col-md-4 col-xs-4">
+                                    momentary
+                                    <input asp-for="ImmediatellyStatus" type="radio" value="3" />
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                        <!--ReplyStatus-->
+                        <div class="d-flex justify-content-between mt-3">
+                            <label asp-for="replayDateStatus" class="control-label col-md-3 col-xs-12 LabelClass"></label>
+                            <div class="col-md-9 col-xs-12" style="height:45px;">
+                                <label class="col-md-3 col-xs-4">
+                                    Has
+                                    <input asp-for="replayDateStatus" id="yesreply" class="checkreply" type="radio" value="1" checked />
+                                </label>
+                                <label class="col-md-5 col-xs-4">
+                                    Doesn't have
+                                    <input asp-for="replayDateStatus" id="noreply" class="checkreply" type="radio" value="0" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <!--ReplyDate-->
+                        <div class="d-flex justify-content-between mt-3">
+                            <label asp-for="ReplyDate" class="control-label col-md-3 col-xs-12 LabelClass"></label>
+                            <div class="col-md-9 col-xs-12">
+                                <input asp-for="ReplyDate" class="form-control custominput" placeholder="Reply Date ..." />
+                                <span asp-validation-for="ReplyDate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--AttachmentStatus-->
+                        <div class="d-flex justify-content-between mt-3">
+                            <label asp-for="AttachmentStatus" class="control-label col-md-3 col-xs-12 LabelClass"></label>
+                            <div class="col-md-9 col-xs-12" style="height:45px;">
+                                <label class="col-md-3 col-xs-4">
+                                    Has
+                                    <input asp-for="AttachmentStatus" id="yesattach" class="attachclass" type="radio" value="1" checked />
+                                </label>
+                                <label class="col-md-5 col-xs-4">
+                                    Doesn't have
+                                    <input asp-for="AttachmentStatus" id="noattach" class="attachclass" type="radio" value="0" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <!--AttachedFile-->
+                        <div class="d-flex justify-content-between mt-3">
+                            <label class="control-label col-md-3 col-xs-12"></label>
+                            <div class="col-md-5 col-xs-12">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <label for="AttachmentFile" class="m-3">
+                                            <i class="fa fa-folder-open" style="color:orange; font-size:30px; margin-top:20px; cursor:pointer;" title="Choose file"></i>
+                                        </label>
+
+
+                                        <input type="button" value="Attach" id="btnupload" onclick="UploadFile()" class="btn"
+                                               style="height:30px; border-radius:3px; border:1px solid gray; background-color:white; width:100px; font-size:11px;" />
+
+                                        <span id="spnfilename" style="color:black; font-size:12px;">.</span>
+                                        <!--نام جدید فایل-->
+                                        <input id="newfilePathName" name="newfilePathName" hidden />
+                                        <input asp-for="AttachmentFile" type="file" style="visibility:hidden" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12" style="text-align:left; color:green;">
+                                <span id="spnmessage" class="hidden"> </span>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div style="text-align:center; width:100%; background-color:gray; height:1px; margin-bottom:15px;" class="col-xs-12"></div>
+
+                    <!--Editor-->
+                    <div class="col-md-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-md-12 d-flex d-inline-flex">
+                                <button type="button" data-toggle="ajax-modal" data-target="#TestModal"
+                                        data-url="@Url.Action($"DefaultForms", "LetterManagement")"
+                                        style="height:30px; font-size:14px; margin-right:3px;"
+                                        class="btn btn-outline-secondary mx-5 my-3">
+                                    Default Forms
+                                    <i class="fa fa-file"></i>
+                                </button>
+                                <button type="button" data-toggle="ajax-modal" data-target="#TestModal"
+                                        data-url="@Url.Action($"AdminForms", "LetterManagement")"
+                                        style="height:30px; font-size:14px; margin-right:3px;"
+                                        class="btn btn-outline-success mx-3 my-3">
+                                    Adminstrative Forms
+                                    <i class="fa fa-file"></i>
+                                </button>
+                               
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                            <textarea asp-for="LetterContent" id="LetterContent" class="form-control"></textarea>
+                        </div>
+
+                        <script src="~/lib/ckeditor/ckeditor.js"></script>
+                        <script>
+                            CKEDITOR.replace("LetterContent");
+                        </script>
+                    </div>
+
+                    <!--btn submit--->
+                    <div class="form-group col-xs-12" style="margin-top:15px; align-content:end">
+                        <input type="submit" value=" Create Letter" class="btn btn-dark mx-5" />
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+@section UserScripts{
+  
+
+    @* کنترل وضعیت پاسخ *@
+    <script>
+        $(".checkreply").on('change', function () {
+            if (document.getElementById('noreply').checked) {
+                $("#ReplyDate").prop('disabled', true);
+                $("#ReplyDate").val('');
+            } else if (document.getElementById('yesreply').checked) {
+                $("#ReplyDate").prop('disabled', false);
+            }
+        });
+    </script>
+
+    @* کنترل وضعیت فایل الصاقی *@
+    <script>
+        $(".attachclass").on('change', function () {
+            if (document.getElementById('noattach').checked) {
+                $("#btnupload").prop('disabled', true);
+
+            } else if (document.getElementById('yesattach').checked) {
+                $("#btnupload").prop('disabled', false);
+            }
+        });
+    </script>
+
+    @* الصاق فایل پیوست *@
+
+    <script>
+        var UploadFile = function () {
+            var data = new FormData;
+            var file = $("#AttachmentFile").get(0);
+            var files = file.files;
+
+            //کنترل سایز فایل
+            if (files[0].size >= 512000) {
+                $("#spnmessage").removeClass('hidden');
+                $("#spnmessage").text('We can not attach file with more than 500kb');
+                $("#spnmessage").css("color", "red");
+                return false;
+            }
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('filearray', files[i]);
+                data.append('filesize', files[i].size);
+            }
+            data.append('path', "img\\upload\\attachfile\\");
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadAttachFile","LetterManagement", new { area = "UserArea"})',
+                data: data,
+                contentType: false,
+                processData: false
+
+            }).done(function (result) {
+                if (result.status == "success") {
+                    $("#spnmessage").text("File has been attached successfuly !");
+                    $("#spnmessage").css("color", "green");
+                    $("#spnmessage").removeClass("hidden");
+                    $("#newfilePathName").val(result.imagename);
+                }
+
+                else if (result.status == 'badsize') {
+                       $("#spnmessage").removeClass('hidden');
+                       $("#spnmessage").text('We can not attach file with more than 500kb');
+                       $("#spnmessage").css("color", "red");
+                }
+
+            }).fail(function (result) {
+                   if (result.status != "success") {
+                    $("#spnmessage").css("color", "red");
+                    $("#spnmessage").removeClass("hidden");
+                    $("#spnmessage").text("An error occured during connecting to server.");
+                }
+            });
+
+        }
+    </script>
+
+    @* نمایسش نام فایل *@
+    <script>
+        $("#AttachmentFile").change(function () {
+            filename = this.files[0].name;
+            $("#spnfilename").html(filename);
+        })
+    </script>
+
+    @* کدهای مربوط به اتوکامپلیت *@
+    <script>
+        $(document).ready(function () {
+            $("#LetterSubject").autocomplete({
+                source: function (request, response) {
+                    $.getJSON("/UserArea/LetterManagement/SearchInSubject", {
+                        term: $("#LetterSubject").val().trim()
+                    },
+                        response)
+                },
+                minLength: 3,
+            });
+        });
+    </script>
+}

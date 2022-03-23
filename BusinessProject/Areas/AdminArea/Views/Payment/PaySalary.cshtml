@@ -1,0 +1,219 @@
+﻿@model BusinessProject.Core.ViewModels.PaymentViewModel;
+@{
+    ViewData["Title"] = "Pay Salary";
+}
+<style>
+    .login_box {
+        font-size: 1rem;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0, .2);
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, .1);
+        padding: 20px 3px !important;
+        color: white;
+        margin: 20px 3px !important;
+    }
+
+        .login_box .input-group input {
+            border: none !important;
+            border-radius: 20px !important;
+            background: none !important;
+            border: 1px solid white !important;
+            color: white !important;
+            padding: 5px 15px !important;
+            width: 100% !important;
+            outline: none !important;
+        }
+</style>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-money" style="margin-right:5px"></i>
+            Pay the Salary of <span style="color:orange">@ViewBag.FullName </span>
+        </span>
+    </div>
+
+    <main>
+        <div class="container-fluid mt-3" style="background-color:#107587;">
+            <div class="row">
+                <form asp-controller="Payment" asp-action="PaySalary" method="post" class="d-flex justify-content-around">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="login_box">
+                                    <div class="container-fluid">
+                                        <div class="row">
+
+                                            <!--FullName-->
+                                            <div class="input-group">
+                                                <div class="col-md-3">
+                                                    <label class="form-control-label">Full Name</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input id="userfullName" value="@ViewBag.FullName" readonly />
+                                                </div>
+                                            </div>
+
+                                            <!--JobName-->
+                                            <div class="input-group">
+                                                <div class="col-md-3">
+                                                    <label class="form-control-label">Position</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input id="position" value="@ViewBag.JobName" readonly />
+                                                </div>
+                                            </div>
+
+                                            <!--Salary-->
+                                            <div class="input-group">
+                                                <div class="col-md-3">
+                                                    <label class="form-control-label">Main Salary</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input asp-for="MainSalary" class="MainSalary" readonly value="@ViewBag.Salary" />
+                                                </div>
+                                            </div>
+
+                                            <!--PayedAmount-->
+                                            <div class="input-group">
+                                                <div class="col-md-3">
+                                                    <label class="form-control-label"> Paid Amount</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input asp-for="PayedAmount" class="PaidAmount" id="amountPayed" onkeyup='amountHandler(this)' />
+                                                    <span asp-validation-for="PayedAmount" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+
+                                            
+
+
+                                            <input asp-for="JobID" hidden value="@ViewBag.JobID" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="login_box">
+
+                                    <!--bonus-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="bonus" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="bonus" class="Bonus" onkeyup='bonusHandler(this)' />
+                                            <span asp-validation-for="bonus" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--Tax-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="Tax" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="Tax" class="taxSalary" onkeyup='taxHandler(this)' />
+                                        </div>
+                                    </div>
+
+                                    <!--RemianSalary-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label class="form-control-label">Remain Salary</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="RemianSalary" class="RemainSalary" id="remain" />
+                                            <span asp-validation-for="RemianSalary" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--TotalPayed-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label class="form-control-label">Total Paid</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="TotalPayed" class="Totalpaid" />
+                                            <span asp-validation-for="TotalPayed" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <input asp-for="UserID" hidden value="@ViewBag.userID" />
+
+                                    <div class="d-flex justify-content-center  mt-5 mb-5">
+                                        <button type="submit" class="btn" style="background-color:#eb4d4b">Save</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+@section AdminScripts{ 
+
+<script>
+ 
+    function amountHandler(e) {
+        let mainSalary = Number(document.querySelector(".MainSalary").value);
+        let payedAmount = Number(document.querySelector(".PaidAmount").value);
+        let remainSalary = document.querySelector(".RemainSalary");
+        if (isNaN(mainSalary) | isNaN(payedAmount)) {
+            alert("please type a number");
+        } else {
+            const remainSalaryAmount = mainSalary - payedAmount;
+            if (remainSalaryAmount < 0) {
+                alert(
+                    "you have typed the payed account incorrectly[more than main salary]"
+                );
+            } else {
+                remainSalary.value = remainSalaryAmount;
+            }
+        }
+    }
+
+    function bonusHandler(e) {
+        let PaidAmount = Number(document.querySelector(".PaidAmount").value);
+        let bonus = Number(document.querySelector(".Bonus").value);
+        let taxSalary = Number(document.querySelector(".taxSalary").value);
+        let Totalpaid = document.querySelector(".Totalpaid");
+        if (isNaN(bonus)) {
+            alert("please type a number");
+        } else {
+            const TotalPaidAmountwithTax = ((taxSalary * PaidAmount) / 100);
+            const TotalPaidamount = PaidAmount + bonus;
+            Totalpaid.value = TotalPaidamount + TotalPaidAmountwithTax;
+        }
+    }
+
+    function taxHandler(e) {
+        let PaidAmount = Number(document.querySelector(".PaidAmount").value);
+        let taxSalary = Number(document.querySelector(".taxSalary").value);
+        let bonus = Number(document.querySelector(".Bonus").value);
+        let Totalpaid = document.querySelector(".Totalpaid");
+        if (isNaN(taxSalary)) {
+            alert("please type a number");
+        } else {
+            
+            const TotalPaidamount = PaidAmount - ((taxSalary * PaidAmount) / 100)  ;
+            if (taxSalary > 100) {
+                alert(
+                    "you have typed the tax amount incorrectly[more than 100]"
+                );
+            } else {
+                Totalpaid.value = TotalPaidamount + bonus;
+            }
+        }
+    }
+
+
+</script>
+}
+

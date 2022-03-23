@@ -1,0 +1,177 @@
+﻿@model BusinessProject.DataModelLayer.Entities.SystemUsers
+@{
+    ViewData["Title"] = "Details Of User";
+}
+
+
+<style>
+    .login_box {
+        font-size: 1rem;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0, .2);
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, .1);
+        padding: 20px 30px !important;
+        color: white;
+        margin: 20px 3px !important;
+    }
+    .detailcolor{
+        margin-left: 10px;
+        color:orange;
+    }
+     
+</style>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-file" style="margin-right:5px"></i>
+            Details of @Model.FirstName @Model.Family
+        </span>
+    </div>
+
+    <main>
+        <div class="container-fluid mt-3" style="background-color:#107587;">
+            <div class="row">
+                <form asp-controller="UserManager" asp-action="EditUser" method="post" enctype="multipart/form-data" class="d-flex justify-content-around">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="login_box">
+                                    <div>
+                                        <span style="font-weight:bold">Name : </span>
+                                        <span class="detailcolor">@Model.FirstName</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold">Family : </span>
+                                        <span class="detailcolor">@Model.Family</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold"> UserName : </span>
+                                        <span class="detailcolor">@Model.UserName</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold"> User Status : </span>
+                                        @if (Model.IsAdmin == 1)
+                                        {
+                                            <span class="detailcolor">Admin</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="detailcolor">User</span>
+                                        }
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold">Id Card : </span>
+                                        <span class="detailcolor">@Model.MilliCode</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold">Personal Code : </span>
+                                        <span class="detailcolor">@Model.PersonalCode</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold">Email : </span>
+                                        <span class="detailcolor">@Model.Email</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold">PhoneNumber : </span>
+                                        <span class="detailcolor">@Model.PhoneNumber</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold">Salary : </span>
+                                        <span class="detailcolor">@Model.Salary</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold"> BirthDay date : </span>
+                                        <span class="detailcolor">@Model.Birthday</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold">Status : </span>
+                                        @if (Model.IsActive == 1)
+                                        {
+
+                                            <span sclass="detailcolor">Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="color:red;">Inactive</span>
+                                        }
+                                    </div>
+
+                                    <br />
+                                    <div>
+                                        <span style="font-weight:bold">Sex : </span>
+                                        @if (Model.Gender == 1)
+                                        {
+                                            <span class="detailcolor">Male </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="detailcolor">Female</span>
+                                        }
+                                    </div>
+                                    <br />
+
+                                    <div>
+                                        <span style="font-weight:bold">Address : </span>
+                                        <span class="detailcolor">@Model.Address</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="login_box">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <span style="font-weight:bold;" class="col-md-4">Picture : </span>
+                                            <div class="col-md-8" style="margin-bottom:15px;">
+                                                <img src="~/img/upload//userimage/@Model.UserImg" style="width:175px; height:200px;
+                                             border:1px solid gray; border-radius:3px;" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <span style="font-weight:bold;" class="col-md-4">Signature : </span>
+                                            <div class="col-md-8" style="margin-bottom:15px;">
+                                                <img src="~/img/upload/signatureimage/@Model.SignatureImg" style="width:175px; height:200px;
+                                                 border:1px solid gray; border-radius:3px;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr style="height:1px; background-color:gray; margin-top:10px;" class="col-md-12 col-xs-12 " />
+
+
+                                <div class="col-xs-12 form-group" style="margin-top:15px;">
+
+                                    <a asp-controller="UserManager" asp-action="Index" class="btn pull-right"
+                                       style="border: 1px solid gray;border-radius: 3px; color: white; background-color: #eb4d4b; margin-left:10px; width: 70px;">Back</a>
+
+                                    <a href="#" style="border:1px solid gray; border-radius:3px; color:wheat; background-color:darkgreen; margin-left:10px; width:70px;" class="btn pull-right">Print</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+

@@ -1,0 +1,310 @@
+﻿@model IEnumerable<BusinessProject.Core.ViewModels.LettersListViewModel>
+
+@{
+    ViewData["Title"] = " AdminstrativeForm";
+    int counter = 1;
+}
+
+<style>
+    .swal2-content {
+        font-size: 18px !important;
+        color: #096060;
+    }
+
+    .swal2-icon {
+        margin: 2px auto 3px !important;
+    }
+
+    .selected {
+        background-color: gray;
+        color: white;
+    }
+</style>
+<div id="placeholder"></div>
+
+
+<div class="public">
+    <div class="panel panel-heading p-3 bg-white" style="box-shadow:3px 1px 1px 0 gray; border-radius:2px; margin-top: 30px !important; margin-bottom:20px !important">
+        <span style="font-weight:bold;">
+            <i class="fa fa-comment"></i>
+            Letter List For Send
+        </span>
+    </div>
+
+
+    <div style="border-radius: 2px; box-shadow: 3px 3px 1px 0 gray; padding:10px 5px; border: 1px solid gray; background-color:white; height:350px; overflow:auto">
+
+        <div class="col-12 text-center alert alert-info">
+            <h6>To send a letter, first please choose a row from letter list</h6>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered " style="background-color:white !important; font-size:16px;border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+                <thead style="background-color:#e5e2e2;">
+                    <tr>
+                        <td style="width:50px">NO</td>
+                        <td style="width:260px">Subject</td>
+                        <td>Date</td>
+                        <td>Immediately</td>
+                        <td>Classification</td>
+                        <td>Attachment</td>
+                        <td>Reply</td>
+                        <td>Replay Date</td>
+                        <td style="width:120px">Operations</td>
+                    </tr>
+                </thead>
+                <tbody id="tblDraft">
+                    @foreach (var item in Model)
+                    {
+                        <tr style="cursor:pointer">
+                            <td>@counter</td>
+                            <td>@item.LetterSubject</td>
+                            <td>@String.Format("{0:yyyy/MM/dd}", item.LetterCreatDate)</td>
+
+                            <td style=" background-color: @(item.ImmediatellyStatus == 1? "" : item.ImmediatellyStatus == 2 ? "#f13d3d": item.ImmediatellyStatus == 3? "#096060; color:white" : "")">
+                                @item.ImmediatellyStatusText
+                            </td>
+
+                            <td style="background-color: @(item.Classification == 1 ? "" : item.Classification == 2 ? "#ff6a00" : item.Classification == 3 ? "#871515; color:white" : "")">
+                                @item.ClassificationText
+                            </td>
+
+                            <td style="background-color: @(item.AttachmentStatus == true? "lightgreen" : "")">
+                                @item.AttachmentStatusText
+                            </td>
+                            <td style="background-color: @(item.replayDateStatus == true? "lightgreen" : "")">
+                                @item.replayDateStatusText
+                            </td>
+                            <td>
+                                @if (item.replayDateStatus == true)
+                                {
+                                    @String.Format("{0:yyyy/MM/dd}", item.ReplyDate)
+                                }
+                                else
+                                {
+
+                                }
+                            </td>
+
+                            <td>
+                                <div class="row" style="margin:0 !important">
+
+                                    <button type="button" data-toggle="ajax-modal" data-target="#TestModal"
+                                            data-url="@Url.Action($"Delete", "DefaultForm")"
+                                            style="height:30px; font-size:14px; margin-right:3px;"
+                                            class="btn btn-danger" title="Delete">
+                                        Delete
+                                        <i class="fa fa-remove"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        counter++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6 colxs12" style=" height:500px; margin-top:20px">
+            <div class="panel panel-body" style="background-color:#e1dddd; height:500px;border:1px solid #096060; border-radius:3px; box-shadow:2px 2px 2px 1px #096060; overflow:auto !important ">
+                <div id="jstreejobs" style="margin-top:15px;">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 colxs12" style=" height:500px; margin-top:20px">
+            <div class="panel panel-body" style="background-color:#e1dddd; height:500px;border:1px solid #096060; border-radius:3px; box-shadow:2px 2px 2px 1px #096060; overflow:auto ">
+                <div class="text-center my-3 alert alert-dark" style="margin-bottom:30px !important">
+                    <h4>The selected letter properties</h4>
+                </div>
+                <div class="mx-5" style="font-size:17px !important">
+                    Subject : <span style="font-weight:bold; color:darkgreen;" id="Lsubject">---</span>
+                    <br />
+                    <br />
+                    Create Date :  <span style="font-weight:bold; color:darkgreen;" id="createDate">---</span>
+                    <br />
+                    <br />
+                    Immediately : <span style="font-weight:bold; color:darkgreen;" id="immediately">---</span>
+                    <br />
+                    <br />
+                    Classification : <span style="font-weight:bold; color:darkgreen;" id="classification">---</span>
+                    <br />
+                    <br />
+                    Attechment :  <span style="font-weight:bold; color:darkgreen;" id="attachment">---</span>
+                    <br />
+                    <br />
+                    Reply : <span style="font-weight:bold; color:darkgreen;" id="reply">---</span>
+                    <br />
+                    <br />
+                    Reply Date : <span style="font-weight:bold; color:darkgreen;" id="replaydate">---</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section UserScripts{
+    <script>
+        $("#tblDraft tr").click(function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+
+            $("#Lsubject").html($(this).find('td').eq(1).html());
+            $("#createDate").html($(this).find('td').eq(2).html());
+            $("#immediately").html($(this).find('td').eq(3).html());
+            $("#classification").html($(this).find('td').eq(4).html());
+            $("#attachment").html($(this).find('td').eq(5).html());
+            $("#reply").html($(this).find('td').eq(6).html());
+            $("#replaydate").html($(this).find('td').eq(7).html());
+        })
+    </script>
+
+    <script>
+        $(function () {
+            $("#jstreejobs").on("changed.jstree", function (e, data) {
+
+                var i, j;
+                var postedItems = [];
+
+                j = data.selected.length;
+                for (var i = 0; i < j; i++) {
+                    postedItems.push({
+                        text: data.instance.get_node(data.selected[i]).text,
+                        id: data.selected[i],
+                        parent: data.node.parents[0]
+                    });
+                    //alert(postedItems[0].id + ' ' + postedItems[0].text);
+                }
+
+                if (data.selected.length) {
+                    $('#JobId').val(postedItems[0].id);
+                }
+
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant":"large"
+                    },
+                    "data":  @Html.Raw(ViewBag.JobJson) ,
+                },
+                "checkbox": {
+                    "Keep_selected_style":false
+                },
+                "plugins": ["checkbox"],
+                checkbox: { three_state: false, casecade : "" }
+            }).on("loaded.jstree", function () {
+                $.jstree.reference('#jstreejobs').open_all();
+                
+            });
+        });
+
+         function h1(data) {
+            //عدد
+            parentNode = $('#jstreejobs').jstree(true).get_parent(data);
+            //آرایه
+            childrenNode = $('#jstreejobs').jstree(true).get_node(data).children;
+            //آرایه
+            siblingsNode = [];
+
+            //تبدیل پرنت نود به یک آرایه
+            prnode = [];
+            prnode.push(parentNode);
+
+            //بدست آوردن همترازهای همگروه
+            $('#jstreejobs').jstree(true).get_node(parentNode).children.forEach(function (c) {
+                if (c !== data) siblingsNode.push(c);
+            });
+
+            //نگهدار همه آی دی های مشاغل
+            var AllIdjobList = [];
+            AllIdjobList = @ViewBag.JobIdList;
+
+            //حذف فرزندان از آرایه همه مشاغل
+            for (var i = 0; i < childrenNode.length; i++) {
+                removeItem(AllIdjobList, childrenNode[i]);
+            }
+            //حذف همترازها از آرایه همه مشاغل
+            for (var i = 0; i < siblingsNode.length; i++) {
+                removeItem(AllIdjobList, siblingsNode[i]);
+            }
+            //حذف پرنت از آرایه همه مشاغل
+            removeItem(AllIdjobList, prnode[0]);
+
+            //غیر فعال کردن همه مشاغل غیر مجاز
+              for (var i = 0; i <= AllIdjobList.length; i++) {
+                  $.jstree.reference('#jstreejobs').disable_node(AllIdjobList[i]);
+              }
+
+            console.log('child = ' + JSON.stringify(childrenNode));
+            console.log('parent = ' + JSON.stringify(prnode));
+            console.log('siblings = ' + JSON.stringify(siblingsNode));
+            console.log('All = ' + JSON.stringify(AllIdjobList));
+        }
+
+
+        //تابع حذف سلول از آرایه
+        function removeItem(arrayTag, itemTag) {
+            for (var i in arrayTag) {
+                if ($.trim(arrayTag[i]).replace(/ /g, "") == itemTag) {
+                    arrayTag.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+
+        @*function ValidateJob(data) {
+            parentNode = $("#jstreejobs").jstree(true).get_parent(data);
+            childrenNodes = $("#jstreejobs").jstree(true).get_node(data).children;
+            siblingsNode = [];
+            // change parenNode to Array
+            prnode = [];
+            prnode.push(parentNode);
+
+            // find Siblings Node
+            $("#jstreejobs").jstree(true).get_node(parentNode).children.forEach(function (c) {
+                if (c != data) {
+                    siblingsNode.push(c);
+                }
+            });
+
+            // All JobId list
+            var AlljobList = [];
+            AlljobList = @ViewBag.JobIdList;
+
+            // dor deleting children nod from all jobid
+            for (var i = 0; i < childrenNodes.length; i++) {
+                removeItem(AlljobList, childrenNodes[i])
+            }
+
+            // fro deleting siblings nods
+            for (var i = 0; i < siblingsNode.length; i++) {
+                removeItem(AlljobList, siblingsNode[i])
+            }
+
+            // for deleting parent from all nods
+            removeItem(AlljobList, prnode[0])
+
+            // for inactivate all other nods
+            for (var i = 0; i < AlljobList.length; i++) {
+                $.jstree.reference('#jstreejobs').disable_node(AlljobList[i])
+            }
+
+            console.log('ParentNode : ' + JSON.stringify(prnode));
+            console.log('Childs : ' + JSON.stringify(childrenNodes));
+            console.log('Siblings : ' + JSON.stringify(siblingsNode));
+        }
+
+        function removeItem(arrayTag, itemTag) {
+            for (var i in arrayTag) {
+                if ($.trim(arrayTag[i]).replace(/ /g, "") == itemTag) {
+                    arrayTag.splice(i, 1);
+                    break;
+                }
+            }
+        }*@
+    </script>
+}

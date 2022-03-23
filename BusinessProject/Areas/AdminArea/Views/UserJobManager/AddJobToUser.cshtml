@@ -1,0 +1,74 @@
+﻿@model BusinessProject.DataModelLayer.Entities.UserJob
+
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-business-time"></i>
+            Give the job to @ViewBag.FullName
+        </span>
+    </div>
+
+    
+    <div class="panel panel-body container-fluid overflow-auto" style="border-radius:2px; height:450px;
+                    box-shadow:3px 1px 1px 0 gray; background-color:#eeeeee !important">
+        <div id="jstreejobs" style="margin-top:5px;">
+
+        </div>
+    </div>
+
+    <form asp-controller="UserJobManager" asp-action="AddJobToUser" method="post">
+        <input asp-for="UserId" value="@ViewBag.userId" hidden/>
+        <input asp-for="JobId" hidden />
+
+        <div class="form-group col-12 d-flex align-content-center" style="margin-top:30px; text-align:right">
+            <button type="submit" class="btn btn-primary" style="text-align:right;">Save</button>
+        </div>
+    </form>
+
+</div>
+@section AdminScripts
+{
+    <script>
+        $(function () {
+            $("#jstreejobs").on("changed.jstree", function (e, data) {
+
+                var i, j;
+                var postedItems = [];
+
+                j = data.selected.length;
+                for (var i = 0; i < j; i++) {
+                    postedItems.push({
+                        text: data.instance.get_node(data.selected[i]).text,
+                        id: data.selected[i],
+                        parent: data.node.parents[0]
+                    });
+                    //alert(postedItems[0].id + ' ' + postedItems[0].text);
+                }
+
+                if (data.selected.length) {
+                    $('#JobId').val(postedItems[0].id);
+                }
+
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant":"large"
+                    },
+                    "data":  @Html.Raw(ViewBag.JobJson) ,
+                },
+                "checkbox": {
+                    "Keep_selected_style":false
+                },
+            }).on("loaded.jstree", function () {
+                $.jstree.reference('#jstreejobs').open_all();
+            });
+        });
+    </script>
+}
+
+
+

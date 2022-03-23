@@ -1,0 +1,66 @@
+﻿@model IEnumerable<BusinessProject.DataModelLayer.Entities.AdminstrativeForm>
+@{
+    Layout = null;
+    int counter = 1;
+}
+
+<style>
+    .selected {
+        background-color: dimgray !important;
+        color: #fff !important;
+    }
+</style>
+
+<!-- The Modal -->
+<div class="modal fade" id="TestModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="background-color:#0d6f0c; color:white; border-radius:5px 5px 0 0;">
+                <h6 class="modal-title"> Adminstrative Forms</h6>
+                <button type="button" class="close pull-left" data-dismiss="modal">&times;</button>
+
+
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div style="border-radius: 2px; box-shadow: 3px 3px 1px 0 gray; padding:10px 5px; border: 1px solid gray; background-color:white; height:350px; overflow:auto">
+                    <table class="table table-bordered table-hover table-striped" style="background-color:white !important; font-size:16px;border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+                        <thead style="background-color:#e5e2e2;">
+                            <tr>
+                                <td style="width:50px">NO</td>
+                                <td style="width:200px">Form Subject</td>
+                                <td>Content</td>
+                            </tr>
+                        </thead>
+                        <tbody id="defaultForms">
+                            @foreach (var item in Model)
+                            {
+                                <tr style="cursor:pointer">
+                                    <td>@counter</td>
+                                    <td>@item.AdminstrativeFormTitle</td>
+                                    <td>
+                                        @item.AdminstrativeFormContent
+                                    </td>
+                                </tr>
+                                counter++;
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align:left">
+                <button type="button" data-dismiss="modal" style="width:80px" class="btn btn-dark">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#defaultForms tr").click(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        CKEDITOR.instances["LetterContent"].setData($(this).find('td').eq(2).html());
+    })
+</script>

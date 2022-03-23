@@ -1,0 +1,42 @@
+﻿@model BusinessProject.DataModelLayer.Entities.RolePattern
+@{
+    ViewData["Title"] = "Give a position for User";
+    List<RolePattern> rolePatterns = ViewBag.RolePatternList;
+}
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class=""></i>
+            Give Position to <span style="color:orange">@ViewBag.FullName</span>
+        </span>
+    </div>
+
+    <div class="wholcontent">
+        @if (ViewBag.msg != null)
+        {
+            <div class="alert @ViewBag.alert text-center">
+                <p>@ViewBag.msg</p>
+            </div>
+        }
+        <div class="col-md-8 offset-2 mt-4 pt-4" style="box-shadow:3px 3px 1px 0 gray; border:1px solid gray; border-radius:2px; padding:20px 15px;">
+            <form asp-controller="AccessRight" asp-action="AddRoleToRolePattern" method="post">
+                <!-- RolePatternId--->
+                <div class="d-flex justify-content-between">
+                    <label class="control-label col-md-3 col-xs-12 text-light">Select a Position : </label>
+                    <div class=" col-md-9 col-xs-12">
+                        <select asp-for="RolePatternId" class="form-control" asp-items="@(new SelectList(rolePatterns,"RolePatternId", "RolePatternName"))"></select>
+                    </div>
+                </div>
+                <input id="userId" name="userId" value="@ViewBag.userId" hidden />
+
+                <!--btn submit--->
+                <div class="form-group col-xs-12" style="margin-top:15px; text-align:right">
+                    <input type="submit" value="Save" class="btn btn-primary " />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

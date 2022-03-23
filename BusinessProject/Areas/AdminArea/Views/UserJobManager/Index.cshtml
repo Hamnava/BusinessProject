@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BusinessProject.DataModelLayer.Entities.SystemUsers>
+@using BusinessProject.Core.Classes;
+@{
+    ViewData["Title"] = "User Job";
+    int counter = 1;
+}
+
+
+<div id="placeholder"></div>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-user-cog"></i>
+            List Of Users to get Job
+        </span>
+    </div>
+    <div class="alert alert-light text-center">
+        <h5>The rows which are <span style="font-weight:bold; color:red"> Red </span> show inactive users!</h5>
+    </div>
+    
+    <div class="col-12 table-responsive" style="border-radius: 2px; box-shadow: 3px 3px 1px 0 gray; padding:10px 5px; border: 1px solid gray; background-color:white;">
+        <table class="table table-bordered " style="background-color:white !important; font-size:16px;border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+            <thead style="background-color:#096060; color:white;">
+                <tr>
+                    <td>NO</td>
+                    <td>First Name</td>
+                    <td>Family</td>
+                    <td> UserName </td>
+                    <td> Personal Code</td>
+                    <td>Operations</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="background-color:@(item.IsActive == 1? "#fff": "#f8cece")">
+                        <td>@counter</td>
+                        <td>@item.FirstName</td>
+                        <td>@item.Family</td>
+                        <td>@item.UserName</td>
+                        <td>@item.PersonalCode</td>
+                        <td>
+
+                            <div class="row" style="margin:1px !important">
+                                <a asp-controller="UserJobManager" asp-action="JobHistoryList" asp-route-userId="@item.Id"
+                                   style="height:30px; font-size:14px; margin-bottom:3px;"
+                                   class="btn btn-info" title="Job History">
+                                    <i class="fa fa-book"></i>
+                                    Job History
+                                </a>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                    counter++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<BusinessProject.DataModelLayer.Entities.SystemUsers>
+
+@{
+    ViewData["Title"] = "Add Role to user";
+    int counter = 1;
+}
+
+<style>
+    .swal2-content {
+        font-size: 18px !important;
+        color: #096060;
+    }
+
+    .swal2-icon {
+        margin: 2px auto 3px !important;
+    }
+</style>
+<div id="placeholder"></div>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-universal-access"></i>
+            Display  users For Getting Access to System
+        </span>
+    </div>
+    
+    
+    <div style="border-radius: 2px; box-shadow: 3px 3px 1px 0 gray; padding:10px 5px; border: 1px solid gray; background-color:white;">
+        <table class="table table-bordered table-hover table-striped" style="background-color:white !important; font-size:16px;border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+            <thead style="background-color:#096060; color:white;">
+                <tr>
+                    <td>Picture</td>
+                    <td>FirstName</td>
+                    <td>Family</td>
+                    <td>UserName</td>
+                    <td>Personal Code</td>
+
+                    <td>Operations</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="padding:0 !important; text-align:center"><img src="~/img/upload/userimage/@item.UserImg" width="40" height="45" style="border-radius:50%" /></td>
+                        <td>@item.FirstName</td>
+                        <td>@item.Family</td>
+                        <td>@item.UserName</td>
+                        <td>@item.PersonalCode</td>
+                        <td>
+
+                            <div class="row" style="margin:0 !important">
+                                <a asp-controller="AccessRight" asp-action="AddrRoleToUser" asp-route-userId="@item.Id"
+                                   asp-route-FirstName="@item.FirstName"
+                                   asp-route-Family="@item.Family"
+                                   style="height:30px; font-size:14px; margin-right:3px;"
+                                   class="btn btn-success" title="Get Access">
+                                    Get Access
+                                    <i class="fa fa-universal-access"></i>
+                                </a>
+                                <a asp-controller="AccessRight" asp-action="AddRoleToRolePattern" asp-route-userId="@item.Id"
+                                   asp-route-FirstName="@item.FirstName"
+                                   asp-route-Family="@item.Family"
+                                   style="height:30px; font-size:14px; "
+                                   class="btn btn-primary" title="Give Position">
+                                    Give Position
+                                    <i class="fa fa-paint-brush"></i>
+                                </a>
+                            </div>
+
+                        </td>
+                    </tr>
+                    counter++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+

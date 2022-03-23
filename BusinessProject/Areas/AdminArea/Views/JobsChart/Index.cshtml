@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    
+}
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="ti-user"></i>
+            Display all System's Jobs'
+        </span>
+    </div>
+
+    <div>
+        <a class="btn btn-success margintop-20" href="#" id="choosetoadd">
+            <span class="mt-4">
+                Add Job
+                <i class="ti-plus"></i>
+            </span>
+        </a>
+        <a  href="#" id="choosetoedit" class="btn btn-primary margintop-20">
+            <span class="mt-4">
+                Update Job
+                <i class="fa fa-edit"></i>
+            </span>
+        </a>
+    </div>
+    
+        <div class="alert alert-info" style="font-size:16px; text-align:center">
+            <h5>To Add Or Update any jobs, first choose a job then click on the required button!</h5>
+        </div>
+        <div class="panel panel-body container-fluid overflow-auto" style="border-radius:2px; height:450px;
+                    box-shadow:3px 1px 1px 0 gray; background-color:#eeeeee !important">
+            <div id="jstreejobs" style="margin-top:5px;">
+
+            </div>
+        </div>
+    
+</div>
+@section AdminScripts
+{
+    <script>
+        $(function () {
+            $("#jstreejobs").on("changed.jstree", function (e, data) {
+
+                var i, j;
+                var postedItems = [];
+
+                j = data.selected.length;
+                for (var i = 0; i < j; i++) {
+                    postedItems.push({
+                        text: data.instance.get_node(data.selected[i]).text,
+                        id: data.selected[i],
+                        parent: data.node.parents[0]
+                    });
+                    //alert(postedItems[0].id + ' ' + postedItems[0].text);
+                }
+
+                if (data.selected.length) {
+                    $('#choosetoadd, #choosetoedit').click(function () {
+                        if (this.id == 'choosetoadd') {
+                            // Add JobsChart
+                            var id = postedItems[0].id;
+                            var parentname = postedItems[0].text;
+                            $('#choosetoadd').attr("href", "/AdminArea/JobsChart/AddJobsChart?id=" + id + "&parentname=" + parentname);
+                        }
+                        else if (this.id == 'choosetoedit') {
+                            // Edit JobsChart
+                            var id = postedItems[0].id;
+                            var parentname = postedItems[0].text;
+                            $('#choosetoedit').attr("href", "/AdminArea/JobsChart/EditJobsChart?id=" + id + "&parentname=" + parentname);
+                        }
+                    })
+                }
+
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant":"large"
+                    },
+                    "data":  @Html.Raw(ViewBag.JobJson) ,
+                },
+                "checkbox": {
+                    "Keep_selected_style":false
+                },
+            }).on("loaded.jstree", function () {
+                $.jstree.reference('#jstreejobs').open_all();
+            });
+        });
+    </script>
+}
+
+
+

@@ -1,0 +1,142 @@
+﻿@model IEnumerable<BusinessProject.DataModelLayer.Entities.SystemUsers>
+
+@{
+    ViewData["Title"] = "Users For Contracts";
+    int counter = 1;
+}
+
+<style>
+    .swal2-content {
+        font-size: 18px !important;
+        color: #096060;
+    }
+
+    .swal2-icon {
+        margin: 2px auto 3px !important;
+    }
+</style>
+<div id="placeholder"></div>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-users"></i>
+            Display all users For Contracts
+        </span>
+    </div>
+ 
+    <div class="row">
+        <div class="input-group mb-3 col-sm-5  col-md-5" style="margin: 5px 5px !important; margin-top:10px !important">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="search for emplyee..." id="myInput" onkeyup="myfunction()">
+        </div>
+
+        <div class="col-sm-5 col-md-5 " style="margin: 5px 5px !important; margin-top:10px !important; text-align:right">
+            <a type="button" class="btn btn-success" asp-controller="Contract" asp-action="Index">Contracts <i class="fa fa-list"></i></a>
+        </div>
+    </div>
+    <!--End Search -->
+    @if (TempData["Contract"] != null)
+    {
+        <div class="alert alert-warning text-center">
+            <p>@TempData["Contract"] </p>
+        </div>
+    }
+    <!--For Checking Conditions -->
+    @if (ViewData["msg"] != null)
+    {
+        <div class="alert alert-warning text-center">
+            <p>@ViewData["msg"]</p>
+        </div>
+    }
+    <!--End Checking Conditions -->
+
+    <div class="table-responsive" style="border-radius: 2px; box-shadow: 3px 3px 1px 0 gray; padding:10px 5px; border: 1px solid gray; background-color:white;">
+        <table class="table table-bordered table-hover table-striped" id="myTable" style="background-color:white !important; font-size:16px;border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+            <thead style="background-color:#096060; color:white;">
+                <tr>
+                    <td>Picture</td>
+                    <td>FirstName</td>
+                    <td>Family</td>
+                    <td>Phone</td>
+                    <td>UserName</td>
+                    <td>Personal Code</td>
+                    <td>Status</td>
+
+                    <td>Operations</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="padding:0 !important; text-align:center"><img src="~/img/upload/userimage/@item.UserImg" width="40" height="45" style="border-radius:50%" /></td>
+                        <td>@item.FirstName</td>
+                        <td>@item.Family</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.UserName</td>
+                        <td>@item.PersonalCode</td>
+                        <td>
+                            @if (item.IsActive == 1)
+                            {
+                                <span style="color:green">Active</span>
+                            }
+                            else
+                            {
+                                <span style="color:red;">InActive</span>
+                            }
+                        </td>
+                        <td>
+
+                            <div class="row" style="margin:0 !important">
+                                <a asp-controller="Contract" asp-action="AddContract"
+                                   asp-route-userId="@item.Id"
+                                   asp-route-FullName="@item.FirstName @item.Family"
+                                   style="height:30px; font-size:14px; margin-right:3px;"
+                                   class="btn btn-warning" title="make Contract">
+                                    Make Contract
+                                    <i class="fa fa-plus-circle"></i>
+                                </a>
+                            </div>
+
+                        </td>
+                    </tr>
+                    counter++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+@section AdminScripts{
+
+    <script>
+        function myfunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (var i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+ }

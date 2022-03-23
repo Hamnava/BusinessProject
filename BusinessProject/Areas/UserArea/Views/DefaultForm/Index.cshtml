@@ -1,0 +1,88 @@
+﻿@model IEnumerable<BusinessProject.DataModelLayer.Entities.AdminstrativeForm>
+
+@{
+    ViewData["Title"] = " AdminstrativeForm";
+    int counter = 1;
+}
+
+<style>
+    .swal2-content {
+        font-size: 18px !important;
+        color: #096060;
+    }
+
+    .swal2-icon {
+        margin: 2px auto 3px !important;
+    }
+</style>
+<div id="placeholder"></div>
+
+
+<div class="public">
+    <div class="panel panel-heading p-3 bg-white" style="box-shadow:3px 1px 1px 0 gray; border-radius:2px; margin-top: 30px !important; margin-bottom:20px !important">
+        <span style="font-weight:bold;">
+            <i class="fa fa-file"></i>
+            Display All Default Forms
+        </span>
+    </div>
+
+    <div>
+        <a asp-action="AddNewDefaultForm" asp-controller="DefaultForm" class="btn btn-success ">
+            <span>
+                Add New Form
+                <i class="fa fa-plus-circle"></i>
+            </span>
+        </a>
+    </div>
+    <div style="border-radius: 2px; box-shadow: 3px 3px 1px 0 gray; padding:10px 5px; border: 1px solid gray; background-color:white;">
+        <table class="table table-bordered table-hover table-striped" style="background-color:white !important; font-size:16px;border-radius:2px; box-shadow:3px 3px 1px 0 gray;">
+            <thead style="background-color:#e5e2e2;">
+                <tr>
+                    <td style="width:50px">NO</td>
+                    <td style="width:200px">Form Subject</td>
+                    <td>Content</td>
+                    <td style="width:120px">Operations</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@counter</td>
+                        <td>@item.AdminstrativeFormTitle</td>
+                        <td>
+                            @if (item.AdminstrativeFormContent.Length > 150)
+                            {
+                                @item.AdminstrativeFormContent.Substring(0,150) <span style="color:darkgreen"> (continue...)</span>
+                            }
+                            else
+                            {
+                                @item.AdminstrativeFormContent
+                            }
+
+                        </td>
+
+
+                        <td>
+                            <div class="row" style="margin:0 !important">
+
+                                <button type="button" data-toggle="ajax-modal" data-target="#TestModal"
+                                        data-url="@Url.Action($"Delete", "DefaultForm", new {AdminstrativeFormId = item.AdminstrativeFormId})"
+                                        style="height:30px; font-size:14px; margin-right:3px;"
+                                        class="btn btn-danger" title="Delete">
+                                    Delete
+                                    <i class="fa fa-remove"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    counter++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+

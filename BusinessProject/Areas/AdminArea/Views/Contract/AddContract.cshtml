@@ -1,0 +1,252 @@
+﻿@model BusinessProject.Core.ViewModels.ContractViewModel;
+@{
+    ViewData["Title"] = "New Contract";
+    List<SystemUsers> userList = ViewBag.userList;
+}
+<style>
+    .login_box {
+        font-size: 1rem;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0, .2);
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, .1);
+        padding: 20px 3px !important;
+        color: white;
+        margin: 20px 3px !important;
+    }
+
+        .login_box .input-group input {
+            border: none !important;
+            border-radius: 20px !important;
+            background: none !important;
+            border: 1px solid white !important;
+            color: white !important;
+            padding: 5px 15px !important;
+            width: 100% !important;
+            outline: none !important;
+        }
+</style>
+
+
+<div class="public">
+    <div class="public-header">
+        <span>
+            <i class="fa fa-id-card-o" style="margin-right:5px"></i>
+            Making a Contract with <span style="color:orange">@ViewBag.FullName</span>
+        </span>
+    </div>
+
+    <main>
+        <div class="container-fluid mt-3" style="background-color:#107587;">
+            @if (ViewBag.msg != null)
+            {
+                <div class="alert alert-danger text-center">
+                    <h5>@ViewBag.msg</h5>
+                </div>
+            }
+
+            <div class="row">
+                <form asp-controller="Contract" asp-action="AddContract" method="post" class="d-flex justify-content-around">
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="login_box">
+                                    <!-- UserId--->
+                                    <div class="container-fluid">
+                                        <div class="row ">
+
+                                            <input type="text" value="@ViewBag.userId" hidden />
+
+                                            <!--ContractType-->
+                                            <div class="input-group genderR d-flex justify-content-between">
+                                                <label class="form-control-label col-md-4">Contract Type</label>
+                                                <label class="col-md-4 d-flex justify-content-between">
+                                                    <span>Time Bassed</span>  <input asp-for="ContractType" type="radio" value="2" checked />
+                                                </label>
+                                                <label class="col-md-4 d-flex justify-content-between">
+                                                    Project Bassed <input asp-for="ContractType" type="radio" value="1" size="20" />
+                                                </label>
+                                            </div>
+
+                                            <!--GrossSalary-->
+                                            <div class="input-group">
+                                                <div class="col-md-3">
+                                                    <label class="form-control-label"> Gross Salary</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input asp-for="GrossSalary" />
+                                                    <span asp-validation-for="GrossSalary" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <!--Currency-->
+                                            <div class="input-group genderR ">
+                                                <label asp-for="Currency" class="form-control-label col-md-3"></label>
+                                                <label class="col-md-4 d-flex justify-content-between">
+                                                    <span>Afghani</span>  <input asp-for="Currency" type="radio" value="1" checked />
+                                                </label>
+                                                <label class="col-md-4 d-flex justify-content-between">
+                                                    Doallar <input asp-for="Currency" type="radio" value="2" />
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="login_box">
+                                    <!--StartDate-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label class="form-control-label">Start Date</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="StartDate" />
+                                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!--EndDate-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label class="form-control-label"> End Date</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="EndDate" />
+                                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <!--Position-->
+                                    <div class="input-group">
+                                        <div class="col-md-3">
+                                            <label asp-for="Position" class="form-control-label"></label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input asp-for="Position" value="@ViewBag.JobName" readonly/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="d-flex justify-content-center  mt-5 mb-5">
+                                    <button type="submit" class="btn" style="background-color:#eb4d4b">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+
+@section AdminScripts{
+    <script>
+        $("#UserImg").change(function () {
+            var filename = this.files[0].name;
+            $("#spnimageuser").html(filename);
+        });
+        $("#SignatureImg").change(function () {
+            var filename = this.files[0].name;
+            $("#spnsiguser").html(filename);
+        });
+    </script>
+
+    <script>
+        var UploadImage = function () {
+            var data = new FormData;
+            var file = $("#UserImg").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('filearray',files[i]);
+            }
+            data.append('path', "img\\upload\\userimage\\");
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadImageFile","UserManager", new { area = "AdminArea"})',
+                data: data,
+                contentType: false,
+                processData: false
+
+            }).done(function (result) {
+                if (result.status == "success") {
+                    $("#imguserimage").attr('src', "\\img\\upload\\userimage\\" + result.imagename);
+                    $("#divmessage").text("Image uploaded successfully");
+                    $("#divmessage").css("color", "green");
+                    $("#divmessage").removeClass("hidden");
+
+
+                    $("#newImagePathName").val(result.imagename);
+                }
+
+            }).fail(function (result) {
+                   if (result.status != "success") {
+                    $("#divmessage").css("color", "red");
+                    $("#divmessage").removeClass("hidden");
+                    $("#divmessage").text("An error accured while image was uploading...");
+                }
+            });
+
+        }
+    </script>
+
+    <script>
+        var UploadSignature = function () {
+            var data = new FormData;
+            var file = $("#SignatureImg").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('filearray',files[i]);
+            }
+
+            data.append('path', "img\\upload\\signatureimage\\");
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadImageFile","UserManager", new { area = "AdminArea"})',
+                data:  data,
+                contentType: false,
+                processData: false
+
+            }).done(function (result) {
+                if (result.status == "success") {
+                    $("#imgusersignature").attr('src', "\\img\\upload\\signatureimage\\" + result.imagename);
+                    $("#divmessage1").text("Image uploaded successfully");
+                    $("#divmessage1").css("color", "green");
+                    $("#divmessage1").removeClass("hidden");
+
+
+                    $("#newSignaturePathName").val(result.imagename);
+                }
+
+            }).fail(function (result) {
+                   if (result.status != "success") {
+                    $("#divmessage1").css("color", "red");
+                    $("#divmessage1").removeClass("hidden");
+                    $("#divmessage1").text("An error accured while image was uploading...");
+                }
+            });
+
+        }
+    </script>
+
+    <script>
+        $("#UserName").on('keyup', function (event) {
+            var pattern = /^[a-zA-Z0-9]*$/;
+            if (!pattern.test(event.key)) {
+                $('#UserName').val("");
+            }
+        });
+
+    </script>
+}
